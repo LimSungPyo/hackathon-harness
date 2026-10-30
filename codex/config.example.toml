@@ -1,0 +1,10 @@
+# ~/.codex/config.toml 에 붙여 넣는다. 둘 다 API 키가 필요 없는 설정이다.
+# 설정에 10분 넘게 걸리면 지우고 scripts/smoke.sh로 대신한다.
+
+[mcp_servers.playwright]
+command = "npx"
+args = ["-y", "@playwright/mcp@0.0.83", "--headless"]
+
+[mcp_servers.context7]
+command = "npx"
+args = ["-y", "@upstash/context7-mcp@4.4.4"]
