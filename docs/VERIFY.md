@@ -22,8 +22,7 @@
 
 ## 제출 전 체크
 
+`scripts/check-submit.sh`가 .env, 빈 파일, 비밀 키, 커밋 형식, README 실행법, AI 제안 수정 건수, smoke를 점검한다. 사람이 볼 것만 남긴다.
+
 - [ ] 새로 clone한 폴더에서 README의 실행법 그대로 실행된다
-- [ ] `scripts/smoke.sh` 통과
-- [ ] `.env`가 커밋되지 않았다 (`git ls-files | grep -n env`)
-- [ ] 빈 파일·지워진 문서 없음 (`git diff --stat` 기준 확인)
-- [ ] DECISIONS.md의 AI 제안 수정 2건 이상
+- [ ] 남은 한계에 미확인·실패 항목의 이유가 있다

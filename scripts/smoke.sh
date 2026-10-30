@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # 띄워둔 서버를 대상으로 API 상태 코드를 확인하고, 가능하면 화면 스크린샷을 남긴다.
-# 사용: scripts/smoke.sh            (기본 API 127.0.0.1:3000, 웹 127.0.0.1:5173)
+# 사용: scripts/smoke.sh            (기본 API 127.0.0.1:$API_PORT|3000, 웹 127.0.0.1:$WEB_PORT|5173)
 #       API=http://host:3000 WEB=http://host:5173 scripts/smoke.sh
 #       SHOT=0 scripts/smoke.sh     (스크린샷 생략)
 set -uo pipefail
 
-API="${API:-http://127.0.0.1:3000}"
-WEB="${WEB:-http://127.0.0.1:5173}"
+API="${API:-http://127.0.0.1:${API_PORT:-3000}}"
+WEB="${WEB:-http://127.0.0.1:${WEB_PORT:-5173}}"
 OUT="${OUT:-.smoke}"
 pass=0
 fail=0

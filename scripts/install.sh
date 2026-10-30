@@ -19,9 +19,15 @@ copy() {
   fi
 }
 
-copy "$HERE/AGENTS.md" "$TARGET/AGENTS.md"
+# 과제가 AGENTS.md를 이미 주면 지우지 않고 뒤에 우리 규칙을 덧붙인다. 두 번 붙이지 않는다
+if [ -e "$TARGET/AGENTS.md" ] && ! grep -q 'harness:rules' "$TARGET/AGENTS.md"; then
+  { printf '\n\n<!-- harness:rules — 아래는 hackathon-harness 규칙. 위 과제 규칙과 부딪히면 위를 따른다 -->\n\n'; cat "$HERE/AGENTS.md"; } >>"$TARGET/AGENTS.md"
+  echo "덧붙임: $TARGET/AGENTS.md (기존 내용 유지)"
+else
+  copy "$HERE/AGENTS.md" "$TARGET/AGENTS.md"
+fi
 for f in "$HERE"/docs/*.md; do copy "$f" "$TARGET/docs/$(basename "$f")"; done
-copy "$HERE/scripts/smoke.sh" "$TARGET/scripts/smoke.sh"
+for f in smoke.sh dev.sh elapsed.sh check-submit.sh hooks/commit-msg; do copy "$HERE/scripts/$f" "$TARGET/scripts/$f"; done
 
 if [ "${2:-}" = "--with-template" ]; then
   (cd "$HERE/template" && find . -type f ! -path './node_modules/*' ! -name 'package-lock.json') | while read -r f; do
@@ -30,5 +36,5 @@ if [ "${2:-}" = "--with-template" ]; then
   done
 fi
 
-chmod +x "$TARGET/scripts/smoke.sh"
+chmod +x "$TARGET"/scripts/*.sh "$TARGET/scripts/hooks/commit-msg"
 echo "끝. 다음: cd \"$TARGET\" && git status"

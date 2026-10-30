@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# 커밋 메시지 형식 검사: "<type>: [<범위>] <제목>", 제목 아래 빈 줄, 본문 항목 최대 3줄.
+msg="$(grep -v '^#' "$1")"
+first="$(printf '%s\n' "$msg" | sed -n 1p)"
+second="$(printf '%s\n' "$msg" | sed -n 2p)"
+
+case "$first" in Merge*|Revert*|fixup!*|squash!*|amend!*) exit 0 ;; esac
+
+reject() {
+  echo "커밋 거부: $1" >&2
+  echo "형식: <type>: [<범위>] <제목>  (빈 줄)  - [추가|변경|수정|삭제|참고] [<파일명>|공통] <내용>" >&2
+  exit 1
+}
+
+printf '%s' "$first" | grep -qE '^(feat|fix|refactor|test|docs|style|build|chore|perf|ci): \[[^]]+\] .+' \
+  || reject "제목 형식이 다르다: $first"
+[ -z "$second" ] || reject "제목과 본문 사이에 빈 줄이 필요하다"
+items="$(printf '%s\n' "$msg" | grep -cE '^- \[' || true)"
+[ "$items" -le 3 ] || reject "본문 항목은 3줄까지 ($items줄)"
+exit 0
