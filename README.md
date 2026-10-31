@@ -6,10 +6,10 @@ AI 코딩 에이전트(Codex)와 짧은 과제를 진행하기 위한 출발점.
 
 | 경로 | 내용 |
 |------|------|
-| `backend/` | FastAPI. `/api/health`만 있음 |
+| `backend/` | FastAPI. `/api/health`만 있음. pytest 예시 `tests/test_health.py` |
 | `frontend/` | React + Vite + TypeScript. `/api`를 백엔드로 프록시 |
 | `docker-compose.yml` | 프론트·백엔드. PostgreSQL 16은 `--profile db`일 때만 |
-| `AGENTS.md` | Codex 작업 규칙: 묻고 나서 구현, 한 기능씩 확인하고 커밋 |
+| `AGENTS.md` | Codex 작업 규칙: 묻고 나서 구현, 백엔드는 기능마다 pytest, 한 기능씩 확인하고 커밋 |
 | `docs/` | PLAN(요구사항·MVP), DECISIONS(결정·AI 제안 수정), VERIFY(확인 결과) |
 | `.agents/skills/master/` | master 스킬: 계획은 6.1 Sol medium, 구현 slave는 6 Luna medium (Orca) |
 | `scripts/smoke.sh` | curl로 API 상태 코드 확인 |
@@ -40,4 +40,5 @@ codex -m gpt-6.1-sol -c model_reasoning_effort=medium
 ## 확인
 
 - 프론트: `http://<호스트>:5173`에 "API 연결됨"이 보이면 연결 끝
-- 백엔드: `scripts/smoke.sh`
+- 백엔드 테스트: `cd backend && .venv/bin/pip install -r requirements-dev.txt && .venv/bin/pytest -q`
+- 띄운 백엔드 확인: `scripts/smoke.sh`

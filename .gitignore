@@ -14,3 +14,4 @@ dist/
 
 # 로컬 확인 결과
 .smoke/
+.pytest_cache/
